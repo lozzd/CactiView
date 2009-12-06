@@ -1,0 +1,98 @@
+
+#########################################################################
+#									#
+#       CactiView v0.1 - Laurie Denness					#
+#       http://laurie.denness.net - laurie@denness.net			#
+#									#
+#       Displays a section of Cacti graphs based on your selection.	#
+#       Graphs rotate automatically every 20 seconds (by default)	#
+#									#
+#       Configuration is available in config.php			#
+#									#
+#########################################################################
+
+
+DISCLAIMER: I am not a PHP developer. I am a sysadmin. This code is probably not 100% glamorous, 
+but it works. If you have any problems, I'm sure they won't be hard to solve; and I cannot be
+held responsible if you lose data, time, your girlfriend, your house, or anything else from 
+using this code. 
+
+
+0. Requirements
+
+- PHP
+- Cacti
+- A monitor dedicated for graphs, preferably hanging from the ceiling or wall. 
+- A web browser running on a computer attached to said monitor
+
+1. Limitations
+
+At the present time, this is intended for a specific screen resolution and there is no easy
+way to change this dynamically. If it doesn't quite fit, please manually alter the size of the
+graphs using the numbers in graphview.php. 
+
+2. What it does 
+
+CactiView gives you a clean and simple view of one data source from Cacti at a time. You can
+name the data sources, and set the automatic rotation duration. 
+
+You can see how this looks here: http://www.flickr.com/photos/lozzd/3210562508/
+
+One main large graph for the last 12 hours, 3 smaller graphs with longer time periods and a 
+couple of other bits and bobs of information. 
+
+3. Configuration
+
+To get the most of CactiView, you should make a couple of simple changes to your Cacti
+installation. These are optional, but will improve the output of CactiView. More details later.
+
+The actual configuration of CactiView is very simple. You do not even have to run CactiView on
+the same server as Cacti. Each configuration option is detailed in the config file, config.php. 
+At the very least, you should set a sensible timeout, the web path to Cacti (to display the 
+actual graphs) and of course the graphs. All that is required for this is the internal ID of
+the graph in Cacti, and a name for the graph. 
+
+4. Using CactiView
+
+After configuration, open a browser (I suggest Google Chrome, more here:
+http://laurie.denness.net/blog/2009/05/finding-a-web-browser-for-constant-page-reloading/ )
+and point it to where you installed CactiView. e.g. http://host/cactiview
+
+You should land at your first graph, and after the timeout, it will rotate to the next graph
+in the array until it hits the last at which point it will start again at the being. This repeats
+forever. 
+
+5. Hints and tips
+
+If displaying this unattended constantly, it is a good idea to use a method to turn off the 
+display when no one will be looking at it (if possible!). On Windows, I provide a couple of
+small .exe files, one which sleeps the displays, and one to wake them. You can then use 
+Task Scheduler to have the monitors be controlled automatically. Using Linux, you can use
+dpms to sleep and wake the monitors using cron. 
+
+6. Modifying Cacti
+
+To remove the graph title from the CactiView graphs to make the display cleaner, you need 
+to add a small amount of code to Cacti itself. This is optional, but recommended. 
+
+--- cacti-0.8.7d/lib/rrd.php       2009-02-12 02:55:50.000000000 +0000
++++ cacti/lib/rrd.php   2009-04-01 16:41:08.961126012 +0000
+@@ -830,6 +830,16 @@
+                }
+        }
+
++        /* Last.fm modification, allow us to get a basic graph for CactiView */
++
++    if (isset($_GET['notitle'])) {
++        $graph["title_cache"] = '';
++        $graph["vertical_label"] = '';
++        $graph_opts .= "-c MGRID#888888" . RRD_NL;
++        $graph_opts .= "--slope-mode" . RRD_NL;
++    }
++
++
+
+
+7. Help me!
+
+No! Well maybe. Send me an email, and I can probably offer some advice. I apologise if not!
