@@ -1,15 +1,10 @@
-
-#########################################################################
-#									#
-#       CactiView v0.1 - Laurie Denness					#
-#       http://laurie.denness.net - laurie@denness.net			#
-#									#
-#       Displays a section of Cacti graphs based on your selection.	#
-#       Graphs rotate automatically every 20 seconds (by default)	#
-#									#
-#       Configuration is available in config.php			#
-#									#
-#########################################################################
+# CactiView v0.2 - Laurie Denness
+#       Displays a section of Cacti graphs based on your selection.
+#       Graphs rotate automatically every 20 seconds (by default)
+#       Configuration is available in config.php
+#
+#       http://laurie.denness.net - laurie@denness.net
+#
 
 
 DISCLAIMER: I am not a PHP developer. I am a sysadmin. This code is probably not 100% glamorous, 
@@ -21,7 +16,7 @@ using this code.
 0. Requirements
 
 - PHP
-- Cacti
+- Cacti or Ganglia
 - A monitor dedicated for graphs, preferably hanging from the ceiling or wall. 
 - A web browser running on a computer attached to said monitor
 
@@ -33,18 +28,20 @@ graphs using the numbers in graphview.php.
 
 2. What it does 
 
-CactiView gives you a clean and simple view of one data source from Cacti at a time. You can
-name the data sources, and set the automatic rotation duration. 
+CactiView gives you a clean and simple view of one data source from Cacti at a time, or a host
+or cluster from Ganglia. You can name the data sources, and set the automatic rotation duration. 
 
 You can see how this looks here: http://www.flickr.com/photos/lozzd/3210562508/
 
 One main large graph for the last 12 hours, 3 smaller graphs with longer time periods and a 
-couple of other bits and bobs of information. 
+couple of other bits and bobs of information. (Ganglia displays the last hour of load, memory,
+network and CPU)
 
 3. Configuration
 
 To get the most of CactiView, you should make a couple of simple changes to your Cacti
 installation. These are optional, but will improve the output of CactiView. More details later.
+The same applies to Ganglia. 
 
 The actual configuration of CactiView is very simple. You do not even have to run CactiView on
 the same server as Cacti. Each configuration option is detailed in the config file, config.php. 
@@ -92,7 +89,28 @@ to add a small amount of code to Cacti itself. This is optional, but recommended
 +
 +
 
+7. Modifying Ganglia
 
-7. Help me!
+To allow for custom sizes posted into the URL of the graph.php graph creation script
+in Ganglia, you need to add the following: (put the lines anywhere as long as Ganglia does
+not overwrite the width variable again! Near the bottom is best.)
+
+--- ./ganglia_backup/graph.php  2009-06-25 10:03:13.000000000 +0000
++++ ./ganglia/graph.php 2010-03-28 17:38:52.013814265 +0000
+@@ -179,6 +176,14 @@
+     $rrdtool_graph['title'] = "$title " . $rrdtool_graph['title'];
+ }
+
++if (isset($_GET['width'])) {
++   $rrdtool_graph['width'] = $_GET['width'];
++}
++
++if (isset($_GET['height'])) {
++   $rrdtool_graph['height'] = $_GET['height'];
++}
++
+
+
+8. Help me!
 
 No! Well maybe. Send me an email, and I can probably offer some advice. I apologise if not!
