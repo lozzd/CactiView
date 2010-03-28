@@ -46,6 +46,12 @@ array("source" => "cacti", "cactiid" => "558" , "title" => "Graph 3" ),
 );
 
 
+# Timezone settings
+# Set the timezone for the two clocks (one large one small) in the bottom right of the graphs (e.g. EST, UTC)
+$largetz = "UTC";
+$smalltz = "BST";
+
+
 # Disable debugging
 error_reporting(0);
 

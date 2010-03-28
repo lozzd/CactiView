@@ -80,8 +80,8 @@ body {
 	<img src="<?php echo $month ?>">
 	<img src="<?php echo $year ?>">
 
-         <div style="margin-top: 10px; font-size: 48px; text-align: center;"><?php echo date('j/n/y G:i T'); ?></div>
-         <div style="font-size: 40px; text-align: center;"><?php echo date_format(date_create('now', timezone_open('EST')), 'j/n/y G:i T'); ?></div>
+         <div style="margin-top: 10px; font-size: 48px; text-align: center;"><?php echo date_format(date_create('now', timezone_open("$largetz")), 'j/n/y G:i T'); ?></div>
+         <div style="font-size: 40px; text-align: center;"><?php echo date_format(date_create('now', timezone_open("$smalltz")), 'j/n/y G:i T'); ?></div>
 
 	</td>
 </tr>
